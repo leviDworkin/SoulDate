@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".reportActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:text="@string/Name"
+            tools:ignore="Autofill"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColor="@android:color/white" />
+        <EditText
+            android:id="@+id/reportText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:text="@string/Report"
+            tools:ignore="Autofill"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColor="@android:color/white" />
+
+
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>
