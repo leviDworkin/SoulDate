@@ -11,27 +11,38 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <EditText
             android:id="@+id/name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="66dp"
+            android:hint="@string/name"
             android:inputType="text"
-            android:text="@string/Name"
-            tools:ignore="Autofill"
             android:maxLines="1"
             android:singleLine="true"
-            android:textColor="@android:color/white" />
+            android:textColor="@color/common_google_signin_btn_text_light_pressed"
+            tools:ignore="Autofill" />
+
         <EditText
             android:id="@+id/reportText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="391dp"
+            android:hint="@string/report"
+            android:scrollHorizontally="false"
             android:inputType="text"
-            android:text="@string/Report"
-            tools:ignore="Autofill"
+            android:gravity="top|left"
             android:maxLines="1"
             android:singleLine="true"
-            android:textColor="@android:color/white" />
+            android:textColor="@color/common_google_signin_btn_text_light_pressed"
+            tools:ignore="Autofill" />
 
+        <Button
+            android:id="@+id/sendReport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:text="@string/send_report"
+            android:textColor="@color/bg_register" />
 
 
     </LinearLayout>

@@ -28,7 +28,7 @@
         android:layout_height="715dp"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_action_add"
+        android:src="@drawable/search_action"
         app:backgroundTint="@color/btn_login_bg" />
 
 </android.support.design.widget.CoordinatorLayout>

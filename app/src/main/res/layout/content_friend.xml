@@ -13,35 +13,42 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <ImageView
+            android:id="@+id/profPic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:adjustViewBounds="true"
+            android:maxHeight="100dp"
+            android:scaleType="fitCenter"
+             />
+
         <TextView
             android:id="@+id/nameText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:textSize="20sp" />
 
         <TextView
             android:id="@+id/ageText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:textSize="20sp" />
 
         <TextView
             android:id="@+id/aboutText"
             android:layout_width="match_parent"
+            android:singleLine="true"
             android:layout_height="130dp"
             android:textSize="20sp" />
-
-        <ImageView
-            android:id="@+id/profPic"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:srcCompat="@tools:sample/avatars"
-             />
 
         <Button
             android:id="@+id/chatBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Chat" />
+
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

@@ -70,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = inputEmail.getText().toString();
+                final String email = inputEmail.getText().toString();
                 final String password = inputPassword.getText().toString();
 
                 if (TextUtils.isEmpty(email)) {
@@ -102,8 +102,12 @@ public class LoginActivity extends AppCompatActivity {
                                         Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                                     }
                                 } else {
-                                    Intent intent = new Intent(LoginActivity.this, userActivity.class);
-                                    startActivity(intent);
+                                    if(email.equals("manager@gmail.com")){
+                                        startActivity(new Intent(LoginActivity.this,managerActivity.class));
+                                    }else{
+                                        Intent intent = new Intent(LoginActivity.this, userActivity.class);
+                                        startActivity(intent);
+                                    }
                                     finish();
                                 }
                             }

@@ -36,7 +36,6 @@ public class DetailsSignupActivity extends AppCompatActivity {
         about = findViewById(R.id.about);
         radiogroup = findViewById(R.id.radioGrp);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-
         registerbtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -69,7 +68,8 @@ public class DetailsSignupActivity extends AppCompatActivity {
             mDatabase.child(userId).setValue(user);
             Intent intent = new Intent(DetailsSignupActivity.this,userActivity.class);
             startActivity(intent);
-            Toast.makeText(DetailsSignupActivity.this, "User added", Toast.LENGTH_LONG).show();
+            Toast.makeText(DetailsSignupActivity.this, "User added to database successfully", Toast.LENGTH_LONG).show();
+            finish();
         }
 
     }

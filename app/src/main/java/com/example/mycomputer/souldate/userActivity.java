@@ -1,11 +1,15 @@
 package com.example.mycomputer.souldate;
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ScrollingView;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -26,6 +30,7 @@ import android.widget.Toast;
 import com.google.firebase.FirebaseError;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -44,6 +49,7 @@ public class userActivity extends AppCompatActivity
     private ScrollView scrollView;
     private LinearLayout linear;
     private String fuid;
+    private ArrayList<String> friendListUpdated, friendList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +69,8 @@ public class userActivity extends AppCompatActivity
         name = findViewById(R.id.name);
         friendsText = findViewById(R.id.freindsList);
         friendsText.setText("My Friends");
+        friendList = new ArrayList<>();
+        friendListUpdated = new ArrayList<>();
         //grab info
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -71,6 +79,7 @@ public class userActivity extends AppCompatActivity
                 about.setText(user.getAbout());
                 age.setText(String.valueOf(user.getAge()));
                 name.setText(user.getF_name()+" "+user.getL_name());
+                friendList.addAll(user.getFriends());
                 int i=1;
                 while(i<user.getFriends().size()){
                     fuid = user.getFriends().get(i++);
@@ -79,19 +88,21 @@ public class userActivity extends AppCompatActivity
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             User friendUser = dataSnapshot.getValue(User.class);
+//                            friendList = friendUser.getFriends();
                             //Dynamically adds button
                             final Button friendDatabtn = new Button(userActivity.this);
                             friendDatabtn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                                     LinearLayout.LayoutParams.WRAP_CONTENT));
                             friendDatabtn.setText(friendUser.getF_name()+" "+friendUser.getL_name()); //put friend name here
-                            friendDatabtn.setBackgroundColor(0xff66ff66); // hex color 0xAARRGGBB
-                            friendDatabtn.setTextSize(18);
+//                            friendDatabtn.setBackgroundColor(0xff66ff66); // hex color 0xAARRGGBB
+                            friendDatabtn.setSingleLine(true);
+                            friendDatabtn.setTextSize(22);
                             linear.addView(friendDatabtn);
 
                             friendDatabtn.setOnClickListener(new View.OnClickListener(){
                                 @Override
                                 public void onClick(View view) {
-//                                    Toast.makeText(userActivity.this, friendDatabtn.getText().toString(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(userActivity.this, "Going to friends page", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(userActivity.this,friendActivity.class);
                                     intent.putExtra("FRIEND_UID_KEY",friendUid);
                                     intent.putExtra("USER_FRIENDS_KEY",user.getFriends());
@@ -110,11 +121,48 @@ public class userActivity extends AppCompatActivity
             }
         });
 
-
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                friendListUpdated = user.getFriends();
                 user = dataSnapshot.getValue(User.class);
+                for (String friend: user.getFriends()){
+                    if (!friendList.contains(friend)){
+                        friendListUpdated.add(friend);
+                        final String friendId = friend;
+                        mDatabase.child(friend).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                User friendUser = dataSnapshot.getValue(User.class);
+                                //Dynamically adds button
+                                final Button friendDatabtn = new Button(userActivity.this);
+                                friendDatabtn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                                        LinearLayout.LayoutParams.WRAP_CONTENT));
+                                friendDatabtn.setText(friendUser.getF_name()+" "+friendUser.getL_name()); //put friend name here
+//                            friendDatabtn.setBackgroundColor(0xff66ff66); // hex color 0xAARRGGBB
+                                friendDatabtn.setSingleLine(true);
+                                friendDatabtn.setTextSize(22);
+                                linear.addView(friendDatabtn);
+
+                                friendDatabtn.setOnClickListener(new View.OnClickListener(){
+                                    @Override
+                                    public void onClick(View view) {
+//                                    Toast.makeText(userActivity.this, friendDatabtn.getText().toString(), Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(userActivity.this,friendActivity.class);
+                                        intent.putExtra("FRIEND_UID_KEY",friendId);
+                                        startActivity(intent);
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+                }
+                friendList = friendListUpdated;
             }
 
             @Override
@@ -152,7 +200,17 @@ public class userActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            AlertDialog.Builder builder = new AlertDialog.Builder(userActivity.this);
+            builder.setMessage("Exit user account?").
+                    setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            userActivity.super.onBackPressed();
+                        }
+                    }).setNegativeButton("Close",null);
+            AlertDialog alert = builder.create();
+            alert.show();
+
         }
     }
 

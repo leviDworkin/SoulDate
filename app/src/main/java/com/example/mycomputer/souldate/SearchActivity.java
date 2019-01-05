@@ -52,14 +52,15 @@ public class SearchActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()){
                     final String friendUid = snapshot.getKey();
-                    final User user = snapshot.getValue(User.class);
+                    final User fuser = snapshot.getValue(User.class);
                     //Dynamically adds button
                     final Button friendDatabtn = new Button(SearchActivity.this);
                     friendDatabtn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT));
-                    friendDatabtn.setText(user.getF_name()+" "+user.getL_name()); //put friend name here
+                    friendDatabtn.setText(fuser.getF_name()+" "+fuser.getL_name()); //put friend name here
                     friendDatabtn.setBackgroundColor(0xff66ff66); // hex color 0xAARRGGBB
                     friendDatabtn.setTextSize(18);
+                    friendDatabtn.setSingleLine(true);
                     linear.addView(friendDatabtn);
 
                     friendDatabtn.setOnClickListener(new View.OnClickListener(){
@@ -68,10 +69,6 @@ public class SearchActivity extends AppCompatActivity {
 //                                    Toast.makeText(userActivity.this, friendDatabtn.getText().toString(), Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(SearchActivity.this,friendActivity.class);
                             intent.putExtra("FRIEND_UID_KEY",friendUid);
-                            ArrayList<String> updateFriends = new ArrayList<String>();
-//                            updateFriends = getIntent().getStringArrayListExtra("USER_FRIENDS_KEY");
-                            updateFriends = user.getFriends();
-                            intent.putExtra("USER_FRIENDS_KEY",updateFriends);
                             startActivity(intent);
                         }
                     });
@@ -82,16 +79,5 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
-        userRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                user = dataSnapshot.getValue(User.class);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
     }
 }

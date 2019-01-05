@@ -107,17 +107,20 @@ public class SignupActivity extends AppCompatActivity {
                                     Toast.makeText(SignupActivity.this, "Authentication failed." + task.getException(),
                                             Toast.LENGTH_SHORT).show();
                                 } else {
-
+                                    if(email.equals("manager@gmail.com")){
+                                        startActivity(new Intent(SignupActivity.this,managerActivity.class));
+                                    }else{
+                                        FirebaseUser authUser = FirebaseAuth.getInstance().getCurrentUser();
+                                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users");
+                                        String uid = authUser.getUid();
+                                        ref.child(uid);
+                                        Intent intent = new Intent(SignupActivity.this, DetailsSignupActivity.class);
+                                        intent.putExtra("USER_EMAIL_KEY",email);
+                                        intent.putExtra("USER_ID_KEY",uid);
+                                        startActivity(intent);
+                                    }
                                     Toast.makeText(SignupActivity.this, "Authentication succeeded." + task.getException(),
                                             Toast.LENGTH_SHORT).show();
-                                    FirebaseUser authUser = FirebaseAuth.getInstance().getCurrentUser();
-                                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users");
-                                    String uid = authUser.getUid();
-                                    ref.child(uid);
-                                    Intent intent = new Intent(SignupActivity.this, DetailsSignupActivity.class);
-                                    intent.putExtra("USER_EMAIL_KEY",email);
-                                    intent.putExtra("USER_ID_KEY",uid);
-                                    startActivity(intent);
                                     finish();
                                 }
                             }
