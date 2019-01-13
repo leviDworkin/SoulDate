@@ -68,7 +68,7 @@ public class userActivity extends AppCompatActivity
         age = findViewById(R.id.age);
         name = findViewById(R.id.name);
         friendsText = findViewById(R.id.freindsList);
-        friendsText.setText("My Friends");
+        friendsText.setText("My Friends list:");
         friendList = new ArrayList<>();
         friendListUpdated = new ArrayList<>();
         //grab info
@@ -244,13 +244,13 @@ public class userActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            Toast.makeText(this, "Unavailable feature at the moment", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_gallery) {
-
+            Toast.makeText(this, "Unavailable feature at the moment", Toast.LENGTH_SHORT).show();
         }else if (id == R.id.nav_manage) {
-
+            Toast.makeText(this, "Unavailable feature at the moment", Toast.LENGTH_SHORT).show();
         }else if (id == R.id.nav_send) {
-
+            Toast.makeText(this, "Unavailable feature at the moment", Toast.LENGTH_SHORT).show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
